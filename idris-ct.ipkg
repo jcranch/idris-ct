@@ -82,6 +82,8 @@ modules
   , Product.ProductCategory
   , Product.ProductFunctor
   , Profunctors.Profunctor
+  , Slice.OverCategory
+  , Slice.UnderCategory
   , CategoryReasoning
   , Utils
 

@@ -38,3 +38,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 >       -> snd x = snd y
 >       -> x = y
 > pairEq {x=(n, m)} {y=(n, m)} Refl Refl = Refl
+>
+> equalitiesEqual : (p, q : x = y) -> p = q
+> equalitiesEqual {x = x} {y = _} Refl Refl = Refl
