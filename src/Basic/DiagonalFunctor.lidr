@@ -53,6 +53,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 >     (identity (functorCategory cat1 cat2) (Delta cat1 cat2 a))
 >     (\_ => Refl))
 >   (\a, b, c, f, g => naturalTransformationExt _ _ _ _
->     (diagonalFunctorMor a c (compose cat2 a b c f g))
->     (compose (functorCategory cat1 cat2) _ _ _ (diagonalFunctorMor a b f) (diagonalFunctorMor b c g))
+>     (diagonalFunctorMor a c (compose cat2 f g))
+>     (compose (functorCategory cat1 cat2) (diagonalFunctorMor a b f) (diagonalFunctorMor b c g))
 >     (\_ => Refl))

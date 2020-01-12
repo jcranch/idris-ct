@@ -74,7 +74,7 @@ Now that we have arrows in our category, allowing us to go from one object to th
 %
 %
 %
-<   compose : (a, b, c : obj)
+<   compose : {a, b, c : obj}
 <          -> (f : mor a b)
 <          -> (g : mor b c)
 <          -> mor a c
@@ -133,14 +133,14 @@ These lines are a bit different in concept: They eat type, but produce \emph{equ
   %
 <   leftIdentity  : (a, b : obj)
 <                -> (f : mor a b)
-<                -> compose a a b (identity a) f = f
+<                -> compose (identity a) f = f
   %
   and
   %
   %
 <   rightIdentity : (a, b : obj)
 <                -> (f : mor a b)
-<                -> compose a b b f (identity b) = f
+<                -> compose f (identity b) = f
   %
   In short, this amounts to say that |(identity a) ; f = f = f ; (identity b)| for any morphism |f : a -> b|. As a technical side note, I'd like to emphasise here how Idris allows us to encode equality in the type system; from a practial point of view, equality in Idris is a type which has only one inhabitant, called |Refl|, which corresponding to reflexivity, and stating that |x = x| for any possible |x|.
 
@@ -149,8 +149,8 @@ These lines are a bit different in concept: They eat type, but produce \emph{equ
 <                -> (f : mor a b)
 <                -> (g : mor b c)
 <                -> (h : mor c d)
-<                -> compose a b d f (compose b c d g h)
-<                = compose a c d (compose a b c f g) h
+<                -> compose f (compose g h)
+<                = compose (compose f g) h
   Imposes the familiar associativity law. It takes four objects and three morphisms between them, and produces an equation stating that the order of composition does not matter. This effectively models the commutative diagram:
   %
   %
@@ -182,18 +182,18 @@ Summing up and putting it all together, our definition of |Category| now looks l
 >   obj           : Type
 >   mor           : obj -> obj -> Type
 >   identity      : (a : obj) -> mor a a
->   compose       : (a, b, c : obj)
+>   compose       : {a, b, c : obj}
 >                -> (f : mor a b)
 >                -> (g : mor b c)
 >                -> mor a c
 >   leftIdentity  : (a, b : obj)
 >                -> (f : mor a b)
->                -> compose a a b (identity a) f = f
+>                -> compose {a = a} {b = a} {c = b} (identity a) f = f -- should this not compile?
 >   rightIdentity : (a, b : obj)
 >                -> (f : mor a b)
->                -> compose a b b f (identity b) = f
+>                -> compose f (identity b) = f
 >   associativity : (a, b, c, d : obj)
 >                -> (f : mor a b)
 >                -> (g : mor b c)
 >                -> (h : mor c d)
->                -> compose a b d f (compose b c d g h) = compose a c d (compose a b c f g) h
+>                -> compose f (compose g h) = compose (compose f g) h
